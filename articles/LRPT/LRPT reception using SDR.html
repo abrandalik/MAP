@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="LRPT reception using SDR.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LRPT reception using SDR</title>
+</head>
+<body>
+    <div class="topLine">
+       
+        <img class="icon" src="mysmimrix.PNG" alt="Mouse">
+        <div class="toptext"><h1 class="name">IT Mouse</h1>
+            <div class="Headpart"> <h1>GitHub</h1> <h1>About us</h1></div>
+        </div>
+        
+</div>
+    <div class="body">
+        <div class="articleSpace">
+            <div class="articleHead"> <p >LRPT reception using SDR</p></div>
+            
+            <div class="text">
+                <p class="mimrix">With relatively inexpensive equipment, you can capture live satellite images of the weather from orbit.
+                    The two easiest transmissions to receive are using the APT and LRPT protocols</p>
+            </div>
+            <div class="HeadText1">
+                <p class="GG">APT</p>
+            </div>
+            <div class="text">
+                <p class="mimrix">APT (Automatic Picture Transmission) is an analog picture transmission format used on
+                    weather satellites. It uses the same FM modulation as FM radio and the images are transmitted line by
+                    line. The satellites currently transmitting in this protocol are from the NOAA POES constellation. And
+                    only 3 out of 16 are still in use. - NOAA 15, NOAA 18 and NOAA 19. APT provides a resolution of 4
+                    km/pixel.
+                    </p>
+            </div>
+            <div class="HeadText2">
+                <p class="GG">LRPT</p>
+                
+            </div>
+            <div class="text"><p class="mimrix">
+                LRPT (Low-Rate Picture Transmission) is a digital signal, which makes decoding a bit more
+                difficult, but it also provides error correction, which results in much better image quality. The only two
+                satellites currently using the LRPT protocol are METEOR-M No. 2 and METEOR-M No. 3. LRPT
+                provides a higher resolution of 1 km per pixel.</p></div>
+                <div class="images">
+                    <div>
+                        <p>NOAA</p>
+                    <img src="Obrázek1.png" alt="">
+                    </div>
+                    <div>
+                        <p>METEOR-M </p>
+                        <img src="Obrázek2.png" alt="">
+                    </div>
+                </div>
+                <div class="HeadText3">
+                    <p class="GG">Hardware</p>
+                    
+                </div>
+                <div class="HeadText1">
+                    <p class="GG">SDR</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    Basically any SDR will do the job. I would recommend Nooelec
+                    SMArTee, RTL-SDR or Airspy mini. I use RTL-SDR, but do your own
+                    research.
+                </p></div>
+                <div class="HeadText5">
+                    <p class="GG">Antenna</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    If you just want to try to receive and image and then put the SDR on a shelf,
+you can use a simple V-dipole antenna that comes with the RTL-SDR starter kit
+or build one yourself. If you want to make a permanent station, you will want
+to build a QFH antenna. If you have a 3D printer and the RTL-SDR antenna,
+you may want to 3D print this antena angle bracket. If you want to build your
+own V-dipole antenna you can use this guide.
+                </p> <img src="Obrázek3.png" alt=""></div>
+                <div class="images">
+                    <div>
+                        
+                    <img src="Obrázek5.png" alt="">
+                    </div>
+                    <div>
+                        
+                        <img src="Obrázek6.png" alt="">
+                    </div>
+                </div>
+                <div class="textLaptop"><div class="HeadText4">
+                    <p class="GG">Laptop</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    If it can run modern linux / win 7, it will be enough. I use Thinkpad X200 from 2008 with Core2Duo
+runnin Linux.
+                </p></div></div>
+                <div class="HeadText3">
+                    <p class="GG">Software</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    The only software you need for the whole process of capturing and decoding the images is SatDump –
+an amazing opensource project
+                </p></div>
+                <div class="HeadText6">
+                    <p class="GG">Pass Prediction</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    For predicting when the next satelite is gonna pass above your location I would recommend using
+Look4Sat if you have an android phone or Gpredict * on your PC. If you use iOS good luck.
+
+                </p></div>
+                <div style="display: flex;margin-left: 60px;margin-top: 30px;margin-bottom: 30px;">
+                     <div>  
+                    <img src="Obrázek7.png" alt="">
+                    </div>
+                    <div>
+                        
+                        <img src="Obrázek8.png" alt="">
+                    </div>
+                </div>
+                <div class="HeadText6">
+                    <p class="GG">Using SatDump</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    After opening SatDump open the Recorder tab, select your SDR in the Device panel and press Start.
+In the Processing panel, search for LRPT or APT, depending on which satellite you are trying to
+capture.
+For NOAA APT: select the correct NOAA satellite and frequency.
+For Meteor LRPT: select METEOR-M2-x LRPT 72k and primary frequency.
+Press Start and the frequency in the waterfall should adjust.
+
+                </p></div>
+                <div class="HeadText7">
+                    <p class="GG">Receiving the image</p>
+                </div>
+                <div class="text"><p class="mimrix">
+                    When the satellite signal comes in line with the antenna, you should see the signal appear on the
+waterfall. You should hear a beep when the APT signal comes in. You can try to adjust the antenna by
+hand to get a better signal and if you see LOCKED it means you are receiving a picture. If the signal
+goes low for a moment, you will see black lines/grains where the signal was bad. After the satellite
+pass, press Stop in the Processing tab and the Device tab. Now Satdump will start processing the
+received data.
+
+
+                </p></div>
+                <div style="display: flex;justify-content: center;margin: 30px;">
+                        
+                    <img src="Obrázek11.png" alt="">
+                </div>
+                <div class="text"><p class="mimrix">                    
+                    PLACEHOLDER IMAGE
+                </p></div>
+                <div class="textLaptop">
+                    <div class="HeadText6">
+                    <p class="GG">The Results</p>
+                </div>
+                <div class="result">
+                    <P class="mimrix">Received images are stored in the Live Processing directory</P>
+                    <ul>
+                        <li class="mimrix">- on Linux: ~/live_output/</li>
+                        <li class="mimrix">- on Windows: idk you can find it in the settings</li>
+                    </ul>
+                    <p class="mimrix">You can also use the Viever tab to create image composites, add map overlays, etc.</p>
+
+
+                </div></div>
+                <div style="display: flex;justify-content: center;">
+                        
+                    <img src="Obrázek9.png" alt="">
+                </div>
+                <div style="display: flex;justify-content: center;margin-bottom: 20px;">
+                        
+                    <img src="Obrázek10.png" alt="">
+                </div>
+                
+
+
+                
+
+        </div>
+        
+    </div>
+    <footer class="BottomLine">
+        <ul class="list">
+            <li><a style="color: white;" href="">About us</a></li>
+            <li><a style="color: white;" href="">GitHub</a></li>
+            <li><a style="color: white;" href="">Clanek 1</a></li>
+            <li><a style="color: white;" href="">Clanek2</a></li>
+            <li><a style="color: white;" href="">Clanek 1</a></li>
+            <li><a style="color: white;" href="">Clanek2</a></li>
+            <li><a style="color: white;" href="">Clanek 1</a></li>
+            <li><a style="color: white;" href="">Clanek2</a></li>
+ 
+        </ul>
+    </footer>
+
+    
+</body>
+</html>

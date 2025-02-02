@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corebooting and upgrading the Thinkpad T520</title>
+    <link rel="stylesheet" href="Corebooting and upgrading the Thinkpad T520.css">
+</head>
+<body>
+    <div class="topLine">
+       
+        <img class="icon" src="mysmimrix.PNG" alt="Mouse">
+        <div class="toptext"><h1 class="name">IT Mouse</h1>
+            <div class="Headpart"> <h1>GitHub</h1> <h1>About us</h1></div>
+        </div>
+        
+</div>
+<div class="body">
+    <div class="articleSpace">
+        <div class="articleHead"> <p >What even is coreboot and why would you want to do this?</p></div>
+    
+    <div class="text">
+        <p class="mimrix">Coreboot is an open source replacement for the proprietary BIOS/UEFI firmware. It also gives you the ability to disable the Intel Management Engine (IME), the built-in "backdoor" in all Intel CPUs since 2008. IMEruns its own OS Mimrix on ring -3, even when the computer is turned off, and has full access to RAM and network. Several serious vulnerabilities have been found in the IME, giving the attacker higher privileges than the operating system running on the hardware.
+            https://www.youtube.com/watch?v=Lr-9aCMUXzI
+            </p>
+    </div>
+    <div class="text">
+        <div>
+                    
+            <img style="width:350px ; margin-left: 40px;" src="Obrázek20.png" alt="">
+            <p style="width: 400px;"class="mimrix">Specifically, on the T520, Coreboot also gives you the option to run 3rd generation Intel CPUs, which is not possible with the stock BIOS.
+
+
+                </p>
+        </div> 
+        <div >
+                    
+            <img style="width: 350px;" src="image.png" alt="">
+        </div>
+       
+        
+    
+    </div>
+    <div class="HeadText1"> <p >What do we need?</p></div>
+
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">A computer compatible with coreboot (T520). You can find them here.(not updated) or in the git repo.
+            </p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">A second computer to do the flashing. </p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Rasberry pi/CH341*/other chip flashing tool</p>
+    </div>
+    <div class="HeadText2"> <p>Step by step instructions</p></div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">First step is to dump the current bios WITH THE COMPUTER DISCONNECTED FROM POWER!</p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">To acces the bios chip we need to remove the keyboard and top shell. You can use the Hardware Maintenance Manual for instructions.</p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Connect the SOIC8 clip to the BIOS chip (make a note of the chip name, you may need it), you may not be able to fit the clip due to the rollcage, I just grinded down the side of the clip, alternatively you can take out the whole motherboard.  </p>
+    </div>
+    <div class="textLaptop" style="margin-top: 15px; margin-bottom: 30px;height: 50px;">
+        <div  class="text">
+           <p style="margin-top: 15px;" class="mimrix">https://libreboot.org/docs/install/spi.html You can use this guide to help you out.
+
+            </p>           
+       </div>
+    </div>
+
+    <div >
+                    
+        <img  style="width: 100%;" src="Obrázek18.jpg" alt="">
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Now install flashrom on the second computer and connect the Flasher.</p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Now run (im using CH341):</p>
+    </div>
+    <div style="margin-left: 40px;" class="text">
+        <p class="mimrix">flashrom -p ch341a_spi -r dump.bin</p>
+    </div>
+    <div  class="text">
+        <p class="mimrix">you should make 2 dumps and check if they are the same using: diff dump1.bin dump2.bin</p>
+    </div>
+    <div class="textLaptop" style="margin-top: 15px; margin-bottom: 10px;">
+        <div  class="text">
+           <p style="margin-top: 5px;" class="mimrix">lets build the coreboot repo: </p>    
+
+       </div>
+       <div style="margin-left: 40px;" class="text">
+        <p class="mimrix">git clone --recursive https://review.coreboot.org/coreboot.git</p>
+        </div>
+        <div style="margin-left: 40px;" class="text">
+            <p class="mimrix">cd coreboot</p>
+        </div>
+        <div style="margin-left: 40px;" class="text">
+            <p class="mimrix">mkdir -p 3rdparty/blobs/mainboard/lenovo/t520</p>
+        </div>
+        <div style="margin-left: 40px;" class="text">
+            <p class="mimrix">make crossgcc-i386 CPUS=$(nproc)</p>
+        </div>
+        <div style="margin-left: 40px;" class="text">
+            <p class="mimrix">cd util/ifdtool && make install</p>
+        </div>
+
+    </div>
+    <div  class="text">
+        <p style="margin-top: 5px;" class="mimrix">Now we can neuter the ME firmware</p>    
+
+    </div>
+    <div style="margin-left: 40px;" class="text">
+     <p class="mimrix">copy the bios dump to the coreboot repo</p>
+     </div>
+     <div style="margin-left: 40px;" class="text">
+         <p class="mimrix">python util/me_cleaner/me_cleaner.py -S -O modified_image.bin original_dump.bin</p>
+     </div>
+     <div style="margin-left: 40px;" class="text">
+         <p class="mimrix">now run: ifdtool -x  modified_image.bin</p>
+     </div>
+     <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">In the directory shoud now be 4 new files flashregion_*.bin rename them to descriptor.bin, me.bin and gbe.bin and copy them to the 3rdparty/blobs/mainboard/lenovo/t520 directory.</p>
+    </div>
+    <div class="HeadText2"> <p >Configuring coreboot:</p></div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Run: make nconfig</p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Now you need to configure the coreboot. I will list some basic things to configure, but do your own research.</p>
+    </div>
+    <div class="HeadText4"> <p >Mainboard</p></div>
+    <div style="margin-left: 40px;" class="text">
+        <p class="mimrix">Mainboard vendor (Lenovo)
+           <br> Mainboard model (ThinkPad T520)
+            <br>ROM chip size (sould be 8mb)  same as the dump size, was also outputted by flashrom
+        </p>
+    </div>
+    <div class="HeadText4"> <p >Chipset</p></div>
+    <div style="margin-left: 40px;" class="text">
+        <p class="mimrix">Beep on fatal error
+            <br>Flash LEDs on fatal error
+            <br>Add Intel descriptor.bin file
+           <br> Add Intel ME/TXE firmware
+            <br>Add gigabit ethernet firmware
+           <br> (paths to the files should match the names used previously)
+        </p>
+    </div>
+    <div class="HeadText4"> <p >Payloads</p></div>
+    <div style="margin-left: 40px;" class="text">
+        <p class="mimrix">Beep on fatal error
+            Do your research, but I usually use SeaBIOS or GRUB.
+        </p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Now compile the coreboot using: make
+            and flash using:
+            </p>
+    </div>
+    <div style="margin-left: 40px;" class="text">
+        <p class="mimrix">flashrom -p ch341a_spi -w coreboot.rom
+            <br>flashrom -p ch341a_spi -v coreboot.rom
+        </p>
+    </div>
+    <div style="margin-top: 10px;" class="text">
+        <p class="mimrix">Now disconnect the flasher and power on the computer.
+            If everything went well you should be greeted with coreboot.
+            
+            </p>
+    </div>
+    <div style="margin-top: 10px;margin-bottom: 30px;" class="text">
+        <p class="mimrix">Now you can install 3rd generation Intel CPUs like I7-3940XM, but I would recommend to get a 125/170W PSU and upgrade the cooling.
+            
+            </p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+<footer class="BottomLine">
+    <ul class="list">
+        <li><a style="color: white;" href="">About us</a></li>
+        <li><a style="color: white;" href="">GitHub</a></li>
+        <li><a style="color: white;" href="">Clanek 1</a></li>
+        <li><a style="color: white;" href="">Clanek2</a></li>
+        <li><a style="color: white;" href="">Clanek 1</a></li>
+        <li><a style="color: white;" href="">Clanek2</a></li>
+        <li><a style="color: white;" href="">Clanek 1</a></li>
+        <li><a style="color: white;" href="">Clanek2</a></li>
+
+    </ul>
+</footer>
+</body>
+</html>

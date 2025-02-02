@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="LGTV root shell.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGTV root shell</title>
+</head>
+<body>
+    <div class="topLine">
+       
+        <img class="icon" src="mysmimrix.PNG" alt="Mouse">
+        <div class="toptext"><h1 class="name">IT Mouse</h1>
+            <div class="Headpart"> <h1>GitHub</h1> <h1>About us</h1></div>
+        </div>
+        
+</div>
+<div class="body">
+    <div class="articleSpace">
+        <div class="articleHead"> <p >LGTV root shell</p></div>
+    
+        
+    <div class="text" style="margin-bottom: 25px;">
+        <p class="mimrix">Using the built-in debug menu, you can get a root shell into the Linux system running on your old LG TV and more.</p>           
+    </div>
+    <div class="textLaptop">
+    <div class="text">
+        <p class="mimrix">Why? Not sure.... But why not.</p>           
+    </div>
+    <div class="text">
+        <p class="mimrix">LG TV running NetCast (older than 2015) NOT webOS</p>           
+    </div>
+    <div class="text">
+        <p class="mimrix">You can use this guide for rooting WebOS based TVs</p>           
+    </div>
+
+</div>
+    <div class="images">
+        <div>
+            <p>NetCast</p>
+        <img src="Obrázek12.png" alt="">
+        </div>
+        <div>
+            <p>WebOS</p>
+            <img style="height: 180px;" src="Obrázek13.png" alt="">
+        </div>
+    </div>
+    <div class="HeadText1">
+        <p class="GG">You will need</p>
+
+    </div>
+
+    <div class="text">
+        <p class="mimrix">Multiple USB flash drives (FAT32), depending on how many USB ports your TV has.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">A way to access the TV service menu</p>
+    </div>
+    <ul style="font-size: 20px;">
+        <li class="mimrix">Service remote LG MKJ39170828</li>
+        <li class="mimrix">Flipper Zero IR File needed</li>
+        <li class="mimrix">Phone with IR diode**</li>
+        <li class="mimrix">Jailbroken PSP-1000***</li>
+    </ul>
+    <div class="HeadText1">
+        <p class="GG">Follow steps</p>
+
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Upload the pelinux_arm_sl_710.tar to all the flash drives.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Turn on the tv and plug all the usb drives into the TV.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Press the In_start button on the service remote.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Now a password prompt should pop up.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Now enter these combinations, one of them should work: 0000, 0413, 8743, 8878, 8741, 7777.</p>
+    </div>
+    <div class="images">
+        <div>
+        <img src="Obrázek14.png" alt="">
+        </div>
+        
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Here you can change a lot of settings that I have no idea what they do (try not to break your TV).</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">For the remote shell go to "8. Test Option", then "Chariot Endpoint", after pressing OK you should get Success.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">Now use NetCat to access the remote shell.</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">nc < TVip> 12346</p>
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix">(The chariot endpoint just runs: <br>
+            &nbsp;&nbsp;&nbsp;sprintf(s, "tar xf %s/pelinux_arm_sl_710.tar -C /tmp", dest); <br>
+         
+            &nbsp;&nbsp;&nbsp;system(s); <br>
+            &nbsp;&nbsp;&nbsp;system("mkdir -p /var/local"); <br>
+            &nbsp;&nbsp;&nbsp;system("/tmp/temp/endpoint &"); <br>
+         
+        )
+        </p>
+    </div>
+    <div class="textLaptop" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class="text">
+            <p class="mimrix">To make the Shell persistent you can add the</p>           
+        </div>
+        <div class="text">
+            <p class="mimrix">“./<path to socat>socat tcp-l:12346,reuseaddr,fork exec:/bin/sh,pty,setsid,setpgid,stderr,ctty & ”
+                to  /mnt/lg/cmn_data/browser/extra_conf
+                </p>           
+        </div>
+    </div>
+    <div class="textLaptop" style="margin-top: 30px; margin-bottom: 30px;">
+         <div class="text">
+            <p class="mimrix">If you brick your TV its your problem the /mnt/lg/cmn_data/browser/extra_conf scrip is part of the boot process and idk what happens if you break it</p>           
+        </div>
+                 
+     </div>
+     <div class="HeadText1">
+        <p class="GG">Backup</p>
+
+    </div>
+    <div class="text">
+        <p class="mimrix">before doing something stupid you can backup your firmware to a flash drive
+            insert empty fat32 flash drive and run the following shell script:
+            </p>           
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix"> 
+            for i in `cat /proc/mtd | grep -v erasesize | awk '{gsub(/[":]/,"");print $1 "_" $4}'`; do echo \
+            Backup of $i ...; cat /dev/`echo $i | awk '{gsub(/_/," ");print $1}'` > /mnt/usb1/Drive1/$i; done
+            
+            </p>           
+    </div>
+    <div class="text" style="margin-top: 10px;">
+        <p class="mimrix"> 
+            Run the "sync" command to make sure all files have been copied.
+and unmount the drive with "umount /dev/sda1".
+
+
+            </p>           
+    </div>
+    <div class="textLaptop" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class="text">
+           <p class="mimrix">The funny thing is, I have no idea how to restore the firmware :D I may get another LGTV to test some more dangerous stuff and report my findings.
+
+
+
+
+            <br>For more info join the openLGTV
+            <br>discord: https://discord.gg/un43C8nhNs
+            </p>           
+       </div>
+                
+    </div>
+    <div class="images">
+        <div>
+        <img src="Obrázek15.png" alt="">
+        </div>
+        
+    </div>
+
+
+        
+
+</div>
+</div>
+
+<footer class="BottomLine">
+    <ul class="list">
+        <li><a style="color: white;" href="">About us</a></li>
+        <li><a style="color: white;" href="">GitHub</a></li>
+        <li><a style="color: white;" href="">Clanek 1</a></li>
+        <li><a style="color: white;" href="">Clanek2</a></li>
+        <li><a style="color: white;" href="">Clanek 1</a></li>
+        <li><a style="color: white;" href="">Clanek2</a></li>
+        <li><a style="color: white;" href="">Clanek 1</a></li>
+        <li><a style="color: white;" href="">Clanek2</a></li>
+
+    </ul>
+</footer>
+
+</body>
+</html>
