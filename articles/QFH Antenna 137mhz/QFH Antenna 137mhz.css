@@ -33,6 +33,10 @@ body {
     min-height: 100vh; /* Full viewport height */
     margin: 0; /* Remove default margin */
 }
+a{
+    text-decoration-line: none;
+    color: white;
+}
 .body{
     display: flex;
     justify-content: center;
